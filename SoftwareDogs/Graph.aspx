@@ -497,7 +497,7 @@
             <asp:CheckBox ID="chkTimer" runat="server" Text="New graph every " 
                 oncheckedchanged="chkTimer_CheckedChanged" />
 &nbsp;&nbsp;
-        <asp:DropDownList ID="cmbTimer" runat="server">
+        <asp:DropDownList ID="cmbTimer" runat="server" OnSelectedIndexChanged="cmbTimer_SelectedIndexChanged">
             <asp:ListItem>5</asp:ListItem>
             <asp:ListItem>10</asp:ListItem>
             <asp:ListItem>15</asp:ListItem>

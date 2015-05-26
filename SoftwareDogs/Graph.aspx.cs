@@ -119,6 +119,13 @@ namespace SoftwareDogs
                 sParameter += "output_location,C:\\Graph\\out\\\r\n";
                 sParameter += "output_file,Graph" + sUserKey + ".png\r\n";
                 sParameter += "data_in,C:\\Graph\\Out\\Data" + sUserKey + ".CSV\r\n";
+                try
+                {
+                    File.Delete("c:\\Graph\\out\\Parameter" + sUserKey + ".CSV");
+                }
+                catch { 
+                    Console.WriteLine("Error Deleting File");
+                }
                 fw.Write("c:\\Graph\\out\\Parameter" + sUserKey + ".CSV", sParameter);
 
                 //CREATE THE DATA.CSV FILE.
@@ -132,7 +139,7 @@ namespace SoftwareDogs
                 sWhere += "AND acType = '" + cmbType.Text + "' ";
                 //string strCommand = "SELECT TOP " + cmbPoints.Text + " convert(nvarchar(24), datDateTime, 121), dValue FROM vGraph WHERE " + sWhere + " ORDER BY datDateTime";
                 //'SELECT top 200 [datDateTime], [dValue]  FROM [DogsData].[dbo].[tReading] Where [iTypeNumber] = 20 AND [iUnitNumber] = 15 GROUP BY [datDateTime], [dValue] ORDER BY max([datDateTime]) DESC'
-                string strCommand = "SELECT top 200 convert(nvarchar(24), datDateTime, 121), dValue  FROM vGraph Where " + sWhere + "  GROUP BY datDateTime, dValue ORDER BY max(datDateTime) DESC"; // KDD
+                string strCommand = "SELECT top " + cmbPoints.Text + " convert(nvarchar(24), datDateTime, 121), dValue  FROM vGraph Where " + sWhere + "  GROUP BY datDateTime, dValue ORDER BY max(datDateTime) DESC"; // KDD
                 conConnection = new SqlConnection(strConnection);
                 conConnection.Open();
                 SqlDataAdapter adapter = new SqlDataAdapter(strCommand, conConnection);
@@ -145,6 +152,15 @@ namespace SoftwareDogs
                     for (int i = 0; i < iCount; i++)
                     {
                         sData += dsType.Tables[0].Rows[i][0].ToString().Trim() + "," + dsType.Tables[0].Rows[i][1].ToString().Trim().Trim()+ "\r\n";
+                    }
+
+                    try
+                    {
+                        File.Delete("c:\\Graph\\out\\Data" + sUserKey + ".CSV");
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Error Deleting File");
                     }
                     fw.Write("c:\\Graph\\out\\Data" + sUserKey + ".CSV", sData);
                 }
@@ -170,6 +186,7 @@ namespace SoftwareDogs
                 //DISPLAY THE GRAPH.
                 try
                 {
+                    string k = "pixes/Graph" + sUserKey + ".png";
                     File.Delete("pixes/Graph" + sUserKey + ".png");
                 }
                 catch (Exception ex){
@@ -200,9 +217,15 @@ namespace SoftwareDogs
         protected void chkTimer_CheckedChanged(object sender, EventArgs e)
         {
             //timRegraph.Enabled = chkTimer.Checked;
+            Console.WriteLine("clicked");
         }
 
         protected void cmbUnit_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void cmbTimer_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
